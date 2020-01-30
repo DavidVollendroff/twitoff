@@ -4,7 +4,7 @@ DB = SQLAlchemy()
 
 class User(DB.Model):
     """Twitter users that we query and store historical tweets"""
-    id = DB.Column(DB.Integer, primary_key=True)
+    id = DB.Column(DB.BigInteger, primary_key=True)
     username = DB.Column(DB.String(20), nullable=False)
     newest_tweet_id = DB.Column(DB.BigInteger)
 
