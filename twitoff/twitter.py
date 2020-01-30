@@ -24,7 +24,7 @@ def add_or_update_user(name):
 
         for tweet in tweets:
             emb = BASILICA.embed_sentence(tweet.text, model='twitter')
-            db_tweet = Tweet(id=tweet.id, text=tweet.text, embedding=emb)
+            db_tweet = Tweet(id=tweet.id, text=tweet.full_text[:500], embedding=emb)
             db_user.tweets.append(db_tweet)
             DB.session.add(db_tweet)
     except Exception as e:
