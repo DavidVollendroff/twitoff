@@ -18,13 +18,14 @@ def add_or_update_user(name):
         tweets = twitter_user.timeline(count=200,
                                        exclude_replies=True,
                                        include_rts=False,
-                                       since_id=db_user.newest_tweet_id)
+                                       since_id=db_user.newest_tweet_id,
+                                       tweet_mode='extended')
         if tweets:
             db_user.newest_tweet_id = tweets[0].id
 
         for tweet in tweets:
-            emb = BASILICA.embed_sentence(tweet.text, model='twitter')
-            db_tweet = Tweet(id=tweet.id, text=tweet.text[:500], embedding=emb)
+            emb = BASILICA.embed_sentence(tweet.full_text, model='twitter')
+            db_tweet = Tweet(id=tweet.id, text=tweet.full_text[:500], embedding=emb)
             db_user.tweets.append(db_tweet)
             DB.session.add(db_tweet)
     except Exception as e:
