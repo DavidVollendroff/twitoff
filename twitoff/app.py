@@ -1,4 +1,3 @@
-# from dotenv import load_dotenv
 from decouple import config
 from flask import Flask, render_template, request
 
@@ -6,7 +5,6 @@ from .models import DB, User
 from .twitter import add_or_update_user
 from .predict import predict_user
 
-# load_dotenv()
 
 def create_app():
     """Creates and configures Flask app instance"""
