@@ -13,6 +13,7 @@ flask-sqlalchemy = "*"
 numpy = "*"
 scikit-learn = "*"
 basilica = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
