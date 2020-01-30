@@ -5,7 +5,7 @@ DB = SQLAlchemy()
 class User(DB.Model):
     """Twitter users that we query and store historical tweets"""
     id = DB.Column(DB.BigInteger, primary_key=True)
-    username = DB.Column(DB.String(20), nullable=False)
+    username = DB.Column(DB.String(15), nullable=False)
     newest_tweet_id = DB.Column(DB.BigInteger)
 
     def __repr__(self):
@@ -15,7 +15,7 @@ class User(DB.Model):
 class Tweet(DB.Model):
     """Stores tweets"""
     id = DB.Column(DB.BigInteger, primary_key=True)
-    text = DB.Column(DB.Unicode(500), nullable=False)
+    text = DB.Column(DB.Unicode(500))
     embedding = DB.Column(DB.PickleType, nullable=False)
     user_id = DB.Column(DB.BigInteger, DB.ForeignKey('user.id'), nullable=False)
     user = DB.relationship("User", backref=DB.backref('tweets', lazy=True))
