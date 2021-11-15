@@ -7,7 +7,7 @@ from .predict import predict_user
 
 
 def create_app():
-    """Creates and configures Flask app instance"""
+    """"Creates and configures Flask app instance"""
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

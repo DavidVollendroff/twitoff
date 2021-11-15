@@ -1,4 +1,4 @@
-import basilica
+import tensorflow_hub as hub
 import tweepy
 from decouple import config
 from .models import User, DB, Tweet
@@ -6,7 +6,13 @@ from .models import User, DB, Tweet
 TWITTER_AUTH = tweepy.OAuthHandler(config('TWITTER_CONSUMER_KEY'), config('TWITTER_CONSUMER_SECRET'))
 TWITTER_AUTH.set_access_token(config('TWITTER_ACCESS_TOKEN'), config('TWITTER_ACCESS_TOKEN_SECRET'))
 TWITTER = tweepy.API(TWITTER_AUTH)
-BASILICA = basilica.Connection(config("BASILICA_KEY"))
+
+
+module_url = "https://tfhub.dev/google/universal-sentence-encoder/4"
+embedding_model = hub.load(module_url)
+
+def embed_sentence(input):
+    return embedding_model(input)
 
 
 def add_or_update_user(name):
@@ -24,7 +30,7 @@ def add_or_update_user(name):
             db_user.newest_tweet_id = tweets[0].id
 
         for tweet in tweets:
-            emb = BASILICA.embed_sentence(tweet.full_text, model='twitter')
+            emb = embed_sentence(tweet.full_text, model='twitter')
             db_tweet = Tweet(id=tweet.id, text=tweet.full_text[:500], embedding=emb)
             db_user.tweets.append(db_tweet)
             DB.session.add(db_tweet)
